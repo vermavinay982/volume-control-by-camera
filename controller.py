@@ -94,12 +94,18 @@ while True:
 
 	lower_board = (67,0,106)
 	upper_board = (123,74,239)
+
+	lower_black = (81,55,18)
+	upper_black = (236,167,194)
+
+
 	# cv2.circle(frame, center, 5, (0, 0, 255), -1)
 
-	center = find_circle(frame, lower_red, upper_red)
-	# center = find_circle(frame, lower_board, upper_board)
+	center1 = find_circle(frame, lower_red, upper_red)
+	center2 = find_circle(frame, lower_black, upper_black)
 	# center = find_circle(frame, lower_white, upper_white)
-	cv2.circle(frame, center, 5, (0, 0, 255), -1)
+	cv2.circle(frame, center1, 5, (0, 0, 255), -1)
+	# cv2.circle(frame, center2, 5, (0, 255,0), -1)
 
 	cv2.imshow('frame', frame)
 	if ord('q')==cv2.waitKey(1):
