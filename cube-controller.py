@@ -112,7 +112,9 @@ while True:
 		level = int(y_norm*10)
 
 		if mute==True:
-			p.press('volumemute')
+			# p.press('volumemute')
+			p.press('playpause')
+
 			mute = False
 		# print(level)
 	else:
@@ -122,7 +124,8 @@ while True:
 		if mute==False:
 			print('paused')
 			print('Mute Volume')
-			p.press('volumemute')
+			# p.press('volumemute')
+			p.press('playpause')
 			mute = True
 
 		# if mute%2:
