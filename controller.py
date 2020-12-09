@@ -44,7 +44,7 @@ def find_circle(frame, low, high):
 	# construct a mask for the color "green", then perform
 	# a series of dilations and erosions to remove any small
 	# blobs left in the mask
-	mask = cv2.inRange(hsv, lower_red, upper_red)
+	mask = cv2.inRange(hsv, low, high)
 	mask = cv2.erode(mask, None, iterations=2)
 	mask = cv2.dilate(mask, None, iterations=2)
 	cv2.imshow('mask', mask)
@@ -85,16 +85,20 @@ while True:
 	if not ret:
 		break
 
-	lower_red = (133,86,151)
-	upper_red = (180,233,255)
+	lower_red = (164,79,100)
+	upper_red = (227,255,255)
 
 	lower_white = (0,0,0)
 	upper_white = (0,0,255)
 
-	# center = find_circle(frame, lower_red, upper_red)
+
+	lower_board = (67,0,106)
+	upper_board = (123,74,239)
 	# cv2.circle(frame, center, 5, (0, 0, 255), -1)
 
-	center = find_circle(frame, lower_white, upper_white)
+	center = find_circle(frame, lower_red, upper_red)
+	# center = find_circle(frame, lower_board, upper_board)
+	# center = find_circle(frame, lower_white, upper_white)
 	cv2.circle(frame, center, 5, (0, 0, 255), -1)
 
 	cv2.imshow('frame', frame)
