@@ -16,6 +16,8 @@ backlog
 
 import cv2
 import imutils
+import pyautogui as p
+
 vc = cv2.VideoCapture(2)
 
 def gray2hsv(img):
@@ -80,23 +82,21 @@ def find_circle(frame, low, high):
 	# update the points queue
 	return center
 
+count = 0
+prev = 0
+curr = 0
+level = 0
+mute = False
+
 while True:
 	ret, frame = vc.read()
+
 	if not ret:
 		break
+	h,w,c = frame.shape
 
 	lower_red = (164,79,100)
 	upper_red = (227,255,255)
-
-	lower_white = (0,0,0)
-	upper_white = (0,0,255)
-
-
-	lower_board = (67,0,106)
-	upper_board = (123,74,239)
-
-	lower_black = (81,55,18)
-	upper_black = (236,167,194)
 
 
 	# cv2.circle(frame, center, 5, (0, 0, 255), -1)
@@ -104,8 +104,45 @@ while True:
 	center1 = find_circle(frame, lower_red, upper_red)
 	# center2 = find_circle(frame, lower_black, upper_black)
 	# center = find_circle(frame, lower_white, upper_white)
-	cv2.circle(frame, center1, 5, (0, 0, 255), -1)
-	# cv2.circle(frame, center2, 5, (0, 255,0), -1)
+	if not center1 is None:
+		cv2.circle(frame, center1, 5, (0, 0, 255), -1)
+		# cv2.circle(frame, center2, 5, (0, 255,0), -1)
+		y = center1[1]
+		y_norm = y/h
+		level = int(y_norm*10)
+
+		if mute==True:
+			p.press('volumemute')
+			mute = False
+		# print(level)
+	else:
+		# pause the music
+		# p.press('volumedown', presses=5)
+		
+		if mute==False:
+			print('paused')
+			print('Mute Volume')
+			p.press('volumemute')
+			mute = True
+
+		# if mute%2:
+		# 	p.press('volumemute')
+		# 	mute = 1
+		# else:
+		# 	pass
+
+	curr = level
+	if not prev == curr:
+		diff = (prev-curr)*5
+		print('Change the volume', diff)
+		if diff<0:
+			print('Reduce Volume')
+			p.press('volumedown', presses=(diff*(-1)))
+		else:
+			print('Increase Volume')
+			p.press('volumeup', presses=diff)
+
+	prev = curr
 
 	cv2.imshow('frame', frame)
 	if ord('q')==cv2.waitKey(1):
